@@ -6,10 +6,13 @@ Configure your credentials and link to your ad in creds.js
 
 
 ### Prerequisites
+```
 npm install puppeteer
-npm install node-cron
-npm install pm2 -g
 
+npm install node-cron
+
+npm install pm2 -g
+```
 ## Running the application
 run once: 
 
