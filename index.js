@@ -44,6 +44,6 @@ const start = async () => {
   await browser.close();
 }
 
-cron.schedule('* * * * *', () => {
+cron.schedule('0 */4 * * *', () => {
   start()
 });
