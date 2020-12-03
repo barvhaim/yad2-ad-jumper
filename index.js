@@ -10,7 +10,7 @@ function delay(time) {
 
 const start = async () => {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
   });
   const page = await browser.newPage();
   await page.setViewport({
@@ -19,9 +19,10 @@ const start = async () => {
   });
   await page.goto('https://my.yad2.co.il/login.php');
   await page.waitForSelector('#userName');
-  await page.$eval('#userName', el => el.value = CREDS.username);
+  await page.$eval('#userName', (el, creds) => el.value = creds.username, CREDS);
   await page.waitForSelector('#password');
-  await page.$eval('#password', el => el.value = CREDS.password);
+  await page.$eval('#password', (el, creds) => el.value = creds.password, CREDS);
+
   await page.click('#submitLogonForm');
   await page.waitForSelector('.content-wrapper.active');
   await page.goto(CREDS.link);
@@ -43,6 +44,6 @@ const start = async () => {
   await browser.close();
 }
 
-cron.schedule('0 */4 * * *', () => {
+cron.schedule('* * * * *', () => {
   start()
 });
