@@ -1,6 +1,7 @@
 # yad2-ad-jumper
 Yad2 ad jumper
-## Getting Startedt
+
+## Getting Started
 Configure your credentials and link to your ad in creds.js
 
 
@@ -9,14 +10,14 @@ npm install puppeteer
 npm install node-cron
 npm install pm2 -g
 
-## Running the tests
+## Running the application
 run once: 
 
 ```
 node index.js
 ```
 
-Pm2 will now start the app.js
+for lunch pm2, will now start the app.js (Every 4 hour the script run automatically)
 
 ```
 pm2 start index.js
