@@ -1,6 +1,8 @@
 # yad2-ad-jumper
 Yad2 ad jumper
 ## Getting Startedt
+Configure your credentials and link to your ad in creds.js
+
 
 ### Prerequisites
 npm install puppeteer
