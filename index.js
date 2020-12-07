@@ -10,7 +10,7 @@ function delay(time) {
 
 const start = async () => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
   });
   const page = await browser.newPage();
   await page.setViewport({
@@ -44,6 +44,7 @@ const start = async () => {
   await browser.close();
 }
 
+start();
 cron.schedule('0 */4 * * *', () => {
   start()
 });
