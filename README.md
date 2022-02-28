@@ -1,18 +1,21 @@
 # yad2-ad-jumper
+
 Yad2 ad jumper
 
 ## Getting Started
+
 Configure your credentials and link to your ad in creds.js
 
-
 ### Prerequisites
-```
-npm install puppeteer node-cron
 
-npm install pm2 -g
 ```
+npm install pm2 -g
+npm i
+```
+
 ## Running the application
-run once: 
+
+run once:
 
 ```
 node index.js
