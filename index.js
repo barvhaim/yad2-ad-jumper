@@ -10,7 +10,7 @@ function delay(time) {
 
 const start = async () => {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
   });
   const page = await browser.newPage();
   await page.setViewport({
@@ -18,33 +18,36 @@ const start = async () => {
     height: 768
   });
   await page.goto('https://my.yad2.co.il/login.php');
-  await page.waitForSelector('#userName');
-  await page.$eval('#userName', (el, creds) => el.value = creds.username, CREDS);
-  await page.waitForSelector('#password');
-  await page.$eval('#password', (el, creds) => el.value = creds.password, CREDS);
 
-  await page.click('#submitLogonForm');
-  await page.waitForSelector('.content-wrapper.active');
-  await page.goto(CREDS.link);
+  const emailSelector = '[data-testid="email"]';
+  await page.waitForSelector(emailSelector);
+  await page.type(emailSelector, CREDS.username);
 
-  await page.waitForSelector('#sLightbox_container > div > div.close_btn');
-  await page.click('#sLightbox_container > div > div.close_btn');
-  await delay(2000);
-  await page.waitForSelector('#bounceRatingOrderBtn');
+  const passwordSelector = '[data-testid="password"]';
+  await page.waitForSelector(passwordSelector);
+  await page.type(passwordSelector, CREDS.password);
 
-  await page.focus('#bounceRatingOrderBtn');
-  await page.click('#bounceRatingOrderBtn');
+  await page.click('[data-testid="submit"]');
 
-  await page.waitForSelector('.viewCommandGreenBtn');
+  const targetText = 'המודעות שלי';
+  const xpathSelector = `//p[contains(text(), '${targetText}')]`;
+  await page.waitForXPath(xpathSelector);
 
   await delay(2000);
-  await page.screenshot({
-    path: (new Date().toLocaleString().split('/').join('-').split(':').join('-').replace(', ', '-').replace(' PM', '').replace(' AM') + '.png')
-  });
+
+  const targetButtonContent = `הקפצה`;
+  await page.evaluate((targetButtonContent) => {
+    const buttons = document.querySelectorAll('button');
+    const targetButton = Array.from(buttons).find(button => button.textContent === targetButtonContent);
+    targetButton.click();
+  }, targetButtonContent);
+
+  await delay(2000);
+
   await browser.close();
 }
 
 start();
-cron.schedule('0 */4 * * *', () => {
-  start()
-});
+// cron.schedule('0 */4 * * *', () => {
+//   start()
+// });
